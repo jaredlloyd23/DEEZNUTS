@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>JS Bin</title>
+  </head>
+  <style>
+    h1{
+      text-align:center;
+      color:green;
+    }
+    
+    p{
+      text-align:center;
+      color:green;
+    }
+    
+    img{
+      margin-left:15%;
+    }
+    
+    body{
+      background-color:black;
+      font-family:Comic Sans MS;
+    }
+  
+  
+  </style>
+  <body>
+    <h1> ACCU Communicator </h1>
+    <p>
+      Nearly every high school student has a mobile phone 
+      these days and most of them bring them to school. <br> Teacher's 
+      say they're a distraction and ban the children from using 
+      them. I say embrace the technology. <br> How about an app that has 
+      a big red button on the screen that says "I don't understand" 
+      the teacher also has a phone or computer display that shows 
+      a <br> graph of how many students don't understand. Open Communication 
+      with the teacher. So this way they don't feel embarrassed about 
+      not knowing what to do.
+    </p>
+    <img href="http://www.hammond.k12.in.us/" src="http://basketsblanches.com/wp-content/uploads/2015/11/Capture-d%E2%80%99%C3%A9cran-2015-11-24-%C3%A0-18.14.12.png">
+     <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+        <script>
+// Takes a string and returns Pig Latin version of it
+var toPigLatin = function(str) {
+    if (!str.replace) {
+        return 'ERROR: Expected a string!';
+    }
+    return str.replace(/\b(\w)(\w+)\b/g, '$2-$1ay').toLowerCase();
+};
+
+// Iterate through each paragraph, call the toPigLatin function on it
+var $paragraphs = $("p");
+
+//each
+    $paragraphs.each(function(index,element){
+         var $paragraph = $(element);
+         $paragraph.text( toPigLatin($paragraph.text()) );
+            });
+            
+        </script>
+  <script id="jsbin-javascript">
+angleMode = "radians";
+
+var Particle = function(position) {
+    this.acceleration = new PVector(0, -0.05);
+    this.velocity = new PVector(random(-1, 1), random(0, -1));
+    this.position = position.get();
+    this.timeToLive = 255.0;
+};
+
+
+var Smoke = function(position) {
+    Particle.call(this, position);
+};
+
+
+var Star = function(position) {
+    this.width = random (5, 15);
+    this.height = this.width+random(2, 15);
+    Particle.call(this, position);
+};
+
+
+
+Particle.prototype.run = function() {
+    this.update();
+    this.display();
+};
+
+Particle.prototype.update = function(){
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.timeToLive -= 2;
+};
+
+Particle.prototype.display = function() {
+    stroke(0, 0, 0, this.timeToLive);
+    strokeWeight(2);
+    fill(255, 0, 0, this.timeToLive);
+    ellipse(this.position.x, this.position.y, 12, 12);
+};
+
+Particle.prototype.isDead = function(){
+    if (this.timeToLive < 0) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+var ParticleSystem = function(position) {
+    this.origin = position.get();
+    this.particles = [];
+};
+
+ParticleSystem.prototype.addParticle = function() {
+    var r = random(1);
+    if (r > 0.5) {
+        this.particles.push(new Smoke(this.origin));
+    } else {
+        this.particles.push(new Star(this.origin));
+    } 
+};
+
+ParticleSystem.prototype.run = function(){
+    for (var i = this.particles.length-1; i >= 0; i--) {
+        var p = this.particles[i];
+        p.run();
+        if (p.isDead()) {
+            this.particles.splice(i, 1);
+        }
+    }
+};
+
+var particleSystem = new ParticleSystem(new PVector(width/2, 280));
+
+Smoke.prototype = Object.create(Particle.prototype);
+
+Smoke.prototype.display = function() {
+noStroke();
+strokeWeight(2);
+fill(151, 151, 151, this.timeToLive);
+ellipse(this.position.x, this.position.y, 12, 12);
+};
+
+Star.prototype = Object.create(Particle.prototype);
+
+Star.prototype.display = function() {
+image(getImage("cute/Star"), this.position.x, this.position.y, this.width, this.width);
+};
+
+draw = function() {
+background(72, 7, 105);
+particleSystem.addParticle();
+particleSystem.run();
+
+// The magical cauldron
+fill(36, 36, 36);
+var cauldronX1 = 150;
+var cauldronX2 = 250;
+var cauldronY = 285;
+bezier(cauldronX1, cauldronY,
+cauldronX1-100, cauldronY+145,
+cauldronX2+100, cauldronY+145,
+cauldronX2, cauldronY);
+};
+</script>
+
+
+
+<script id="jsbin-source-javascript" type="text/javascript">angleMode = "radians";
+
+var Particle = function(position) {
+    this.acceleration = new PVector(0, -0.05);
+    this.velocity = new PVector(random(-1, 1), random(0, -1));
+    this.position = position.get();
+    this.timeToLive = 255.0;
+};
+
+
+var Smoke = function(position) {
+    Particle.call(this, position);
+};
+
+
+var Star = function(position) {
+    this.width = random (5, 15);
+    this.height = this.width+random(2, 15);
+    Particle.call(this, position);
+};
+
+
+
+Particle.prototype.run = function() {
+    this.update();
+    this.display();
+};
+
+Particle.prototype.update = function(){
+    this.velocity.add(this.acceleration);
+    this.position.add(this.velocity);
+    this.timeToLive -= 2;
+};
+
+Particle.prototype.display = function() {
+    stroke(0, 0, 0, this.timeToLive);
+    strokeWeight(2);
+    fill(255, 0, 0, this.timeToLive);
+    ellipse(this.position.x, this.position.y, 12, 12);
+};
+
+Particle.prototype.isDead = function(){
+    if (this.timeToLive < 0) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+var ParticleSystem = function(position) {
+    this.origin = position.get();
+    this.particles = [];
+};
+
+ParticleSystem.prototype.addParticle = function() {
+    var r = random(1);
+    if (r > 0.5) {
+        this.particles.push(new Smoke(this.origin));
+    } else {
+        this.particles.push(new Star(this.origin));
+    } 
+};
+
+ParticleSystem.prototype.run = function(){
+    for (var i = this.particles.length-1; i >= 0; i--) {
+        var p = this.particles[i];
+        p.run();
+        if (p.isDead()) {
+            this.particles.splice(i, 1);
+        }
+    }
+};
+
+var particleSystem = new ParticleSystem(new PVector(width/2, 280));
+
+Smoke.prototype = Object.create(Particle.prototype);
+
+Smoke.prototype.display = function() {
+noStroke();
+strokeWeight(2);
+fill(151, 151, 151, this.timeToLive);
+ellipse(this.position.x, this.position.y, 12, 12);
+};
+
+Star.prototype = Object.create(Particle.prototype);
+
+Star.prototype.display = function() {
+image(getImage("cute/Star"), this.position.x, this.position.y, this.width, this.width);
+};
+
+draw = function() {
+background(72, 7, 105);
+particleSystem.addParticle();
+particleSystem.run();
+
+// The magical cauldron
+fill(36, 36, 36);
+var cauldronX1 = 150;
+var cauldronX2 = 250;
+var cauldronY = 285;
+bezier(cauldronX1, cauldronY,
+cauldronX1-100, cauldronY+145,
+cauldronX2+100, cauldronY+145,
+cauldronX2, cauldronY);
+};</script></body>
+</html>
